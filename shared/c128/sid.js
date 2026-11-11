@@ -171,6 +171,8 @@
     return out;
   }
 
+  sid.sweep = sweep;   // exposed for tools/tests
+
   /** SOUND voice,freq,dur[,dir,min,step,wave,pulse]  (async: waits for a busy voice) */
   sid.sound = async function (v, freq, dur, dir = 0, min = 0, step = 0, wave = 2, pw = 2048) {
     if (dur === 0) { stopVoice(v); return; }   // SOUND v,0,0 = silence the voice
