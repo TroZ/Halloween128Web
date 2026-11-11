@@ -1,0 +1,64 @@
+HALOWEEN.D64 - recovery and preliminary analysis
+================================================
+
+Disk image
+----------
+Disk format: 35-track Commodore 1541 D64 (174,848 bytes)
+Disk name: HALOWEEN
+Directory: one file, HALOWEEN, type PRG, 25 blocks
+Extracted PRG size: 6,197 bytes, including the 2-byte load address
+PRG load address: $4001
+
+Program recovery
+----------------
+The PRG contains a linked, tokenized BASIC program. The token values identify
+Commodore 128 BASIC 7.0, not ordinary Commodore 64 BASIC V2. Examples include
+GRAPHIC ($DE), COLOR ($E7), and the extended statement tokens for PLAY
+($FE04), MOVSPR ($FE06), and SPRITE ($FE07).
+
+The decoded listing is in HALOWEEN.bas. It contains 281 numbered lines,
+from line 1 through line 2870. The original line numbers, comments, DATA
+statements, and tokenized BASIC keywords have been retained in readable form.
+
+Program outline
+---------------
+Lines 1-30: Public-domain notice and introductory comments.
+Lines 100-510: Draw the pumpkin in C128 bitmap graphics using GRAPHIC,
+  COLOR, CIRCLE, DRAW, and PAINT.
+Lines 530-640: Read sprite data into memory and initialize sprites 1-5.
+Lines 660-1000: Run a scripted sequence of effects, then enter a random loop.
+Lines 1020-1240: Move the pumpkin's eyes horizontally and vertically.
+Lines 1260-1390: Play the "Hall of the Mountain King"-named music sequence
+  using BASIC 7.0 TEMPO and PLAY commands.
+Lines 1410-1610: Animate the spider (sprites 6 and 7), with sound effects.
+Lines 1630-1700: Flash the eyes.
+Lines 1720-1800: Generate random spooky sounds and random visual actions.
+Lines 1820-2000: Cheshire-pumpkin / roaming-eyes effect.
+Lines 2010-2190: Thunder and lightning effect, followed by sound effects.
+Lines 2210-2260: Alarm sound sequence.
+Lines 2280-2360: Animate the ghost (sprite 8) with sound effects.
+Lines 2380-2440: Shift the eyes left, center, and right.
+Lines 2460-2530: Reset sound and blink the eyes red.
+Lines 2550-2560: Load sprite data into memory.
+Lines 2570-2870: Sprite DATA.
+
+Sprite data
+-----------
+There are exactly 512 DATA values, each in the byte range 0-255. The program
+reads them into addresses 3584-4095 ($0E00-$0FFF), which is eight 64-byte
+sprite slots. A visual decode of the eight 24x21 pixel sprites identifies:
+  1-2: eye outlines; 3-4: small eye/pupil sprites used for flashing;
+  5: a witch riding a broom; 6-7: two alternating spider frames;
+  8: a ghost. A sprite preview is provided as sprite_montage.png.
+
+Important caveat: the PRG load address $4001 is unusual for a BASIC program.
+The token stream is unmistakably BASIC 7.0, but the load address means we
+should not assume that a normal C128 LOAD followed by RUN is sufficient.
+Before attempting to run it in an emulator or on hardware, we should
+investigate how the original author intended the program to be loaded and
+how the BASIC program pointers/memory bank are initialized.
+
+This is a recovery/detokenization, not yet a proof that every line runs
+unchanged on a stock C128. The next technical step is to resolve the $4001
+load-address issue and verify the exact BASIC 7.0 graphics/sprite/audio
+semantics before porting the program to JavaScript.

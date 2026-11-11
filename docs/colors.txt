@@ -1,0 +1,21 @@
+
+Commodore 64 16-Color RGB Table
+
+
+Code (Dec)	Code (Hex)	Color Name	RGB Value (0-255)	Hex Code
+0	$00	Black	0, 0, 0	#000000
+1	$01	White	255, 255, 255	#FFFFFF
+2	$02	Red	136, 0, 0	#880000
+3	$03	Cyan	170, 255, 238	#AAFFEE
+4	$04	Violet / Purple	204, 68, 204	#CC44CC
+5	$05	Green	0, 204, 85	#00CC55
+6	$06	Blue	0, 0, 170	#0000AA
+7	$07	Yellow	238, 238, 119	#EEEE77
+8	$08	Orange	221, 136, 85	#DD8855
+9	$09	Brown	102, 68, 0	#664400
+10	$0A	Light Red / Pink	255, 119, 119	#FF7777
+11	$0B	Dark Grey	51, 51, 51	#333333
+12	$0C	Grey	119, 119, 119	#777777
+13	$0D	Light Green	170, 255, 102	#AAFF66
+14	$0E	Light Blue	0, 136, 255	#0088FF
+15	$0F	Light Grey	187, 187, 187	#BBBBBB

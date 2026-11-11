@@ -1,0 +1,142 @@
+:root {
+  --bg: #111014;
+  --panel: #1d1b22;
+  --text: #c8c4d0;
+  --muted: #8a8594;
+  --accent: #dd8855;          /* VIC-II orange */
+  --c128-blue: #0088ff;       /* VIC-II light blue, used on the start screen */
+}
+
+* { box-sizing: border-box; }
+
+/* Make the hidden attribute win over display rules such as #start's flex. */
+[hidden] { display: none !important; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+main {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  gap: 10px;
+}
+
+/* The 384x272 frame scales to fit the window, keeping its aspect ratio. */
+#monitor {
+  position: relative;
+  width: min(100%, calc((100vh - 110px) * 384 / 272));
+  aspect-ratio: 384 / 272;
+  background: #000;
+  box-shadow: 0 0 0 6px #2a2730, 0 12px 40px rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#monitor:fullscreen {
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#screen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+#monitor:fullscreen #screen {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 384 / 272;
+}
+
+/* Start overlay styled like a C128 40-column boot screen. */
+#start {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6% 8%;
+  background: rgba(0, 0, 0, 0.72);
+  color: var(--c128-blue);
+  cursor: pointer;
+}
+
+#start pre {
+  margin: 0;
+  font: clamp(9px, 2.1vw, 18px)/1.35 "Courier New", ui-monospace, monospace;
+  font-weight: bold;
+  white-space: pre-wrap;
+}
+
+#start .cursor::after {
+  content: "\2588";
+  animation: blink 1s steps(1) infinite;
+}
+
+#start .hint {
+  margin: 0;
+  color: var(--accent);
+  text-align: center;
+  font-size: clamp(11px, 1.8vw, 16px);
+}
+
+#start:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+
+@keyframes blink { 50% { opacity: 0; } }
+
+#bar {
+  width: min(100%, calc((100vh - 110px) * 384 / 272));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#status {
+  color: var(--muted);
+  font-family: "Courier New", ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid #3a3642;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover { border-color: var(--accent); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.credit {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #start .cursor::after { animation: none; }
+}

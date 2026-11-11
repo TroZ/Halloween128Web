@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Halloween 128</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <div id="monitor">
+      <canvas id="screen" width="384" height="272" aria-label="Animated jack-o'-lantern"></canvas>
+      <div id="start" role="button" tabindex="0" aria-label="Start the program">
+        <pre>COMMODORE BASIC V7.0 122365 BYTES FREE
+(C)1985 COMMODORE ELECTRONICS, LTD.
+
+READY.
+LOAD"HALOWEEN",8
+
+READY.
+<span class="cursor">RUN</span></pre>
+        <p class="hint">Click or press Enter to run (sound on)</p>
+      </div>
+    </div>
+    <div id="bar">
+      <span id="status" aria-live="polite">ready.</span>
+      <span class="controls">
+        <button id="mute" type="button" aria-pressed="false">Mute</button>
+        <button id="fullscreen" type="button">Fullscreen</button>
+      </span>
+    </div>
+    <p class="credit">A JavaScript port of the public-domain Commodore 128 BASIC 7.0 program HALOWEEN.</p>
+  </main>
+
+  <script src="js/vic.js"></script>
+  <script src="js/basic-gfx.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/timing.js"></script>
+  <script src="js/sid.js"></script>
+  <script src="js/halloween.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
