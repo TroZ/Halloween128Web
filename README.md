@@ -6,3 +6,7 @@ This was mostly converted by Claude.
 
 This isn't cycle perfect or doing any actual accurate emulation on the video or sound of a Commodore 128, however it is a semi-accurate loose representation of the Halloween demo on a webpage.
 
+To run:
+Download contents of src/ folder.
+Open index.html in a modern web browser (uses canvas and web audio)
+Click or press enter once the page is loaded
