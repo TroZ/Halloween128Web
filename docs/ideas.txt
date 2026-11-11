@@ -1,0 +1,27 @@
+Ideas for new effect routines:
+
+
+Update witch: when witch is about to screen wrap, pick a random number up to 10. if 1 is picked, witch stops and doesn't move for the normal amount of time it takes to cross the screen, then restarts normal movement (skip screen crossing). If 2 is picked, witch sprite is mirrored horizontally and move across the screen to the left at it's normal rate until it screen wraps. Any other number and the witch is set up facing it's normal direction and moving to the right at it's normal speed.
+
+Update spider so that the pumpkins eyes look at the spider as it climbs the screen.
+
+Update Ghost so that the pumpkin's eyes look at / follow the ghost, moving to look at the ghost when if first appears, then following it as it move across the screen.
+Update ghost so it has a 50/50 chance of moving across the screen right to left or left to right.
+
+
+black cat: have a (dark grey since background is black) cat walk across the bottom of the screen from right to left slower than ghost but faster than the witch. about height of ghost but twice as wide.
+sprite: something like https://imgbin.com/png/rjJGaFqD/cat-walk-cycle-animated-film-drawing-sprite-png but scaled down, and only a 4 frame walk cycle instead of the 12 frames here. something similar to https://www.ukposters.co.uk/black-pixel-art-silhouette-of-a-walking-cat-isolated-on-white-background-f1659853502?srsltid=AYCX9vL-3iRQ6xewEV-Ck-AdLm0LCmWKLO1YjsRKGVGZNfoJzK7XW0Av with a single open pixel for an eye
+pumpkin's eyes should look at cat as it crosses the screen
+
+Dizzy: pumpkins eyes move to center poisition then spiral out to largest normal extent making 5 revolutions before reaching max extent, each rotation taking about 1 second. Once at max extent, will do 5 more circles at one circle per second. Then eyes snap to center and pupils flash red for 1 second. At start random pick clockwise or counter-clockwise rotation
+
+Crosseyed: Pumpkin starts with eyes in center position and over 3 seconds goes cross-eyed with both eyes in farthest towards center of screen position. eyes then turn red and stay that way for 2 seconds, and then the eyes are red with red flashing pupils for 2 seconds. finally eyes return to yellow and pupils stop flashing and eyes move to normal centered position over 1 second.
+
+Mummy / Frankenstein's Monster walks across the bottom of the screen. About width of ghost but twice as high. About the speed of the witch, but right to left.
+mummy sprite something like https://www.shutterstock.com/image-vector/mummy-walking-dead-pixel-art-2698804435 or https://www.shutterstock.com/image-vector/egyptian-mummy-pixel-art-character-horror-1055305994 with arms and legs separated a bit. yellow in color, open mouth (so background shows through) and eyes also transparent / black / background shows through. Example sprites redone to fit C128 aesthetic, 2 sprites high, 1 wide, so legs, feet, hips on one C128 sprite, toso, arms head on second sprite just above. Add small indication of wrappings becoming undone to arms, legs, back.
+Frankenstein's Monster sprite something like https://www.shutterstock.com/image-vector/pixel-art-illustration-frankenstein-pixelated-game-2385371693 or https://mazeon.tumblr.com/post/101342245020/frankensteins-first-night-walk-have-a-spooky . Basically similar to mummy but with wider torso and no freying wrap indication, an dwith small sidewas T shape on neck indicating a bolt in his neck and possibly dotted holess near top of head indicating stitches, similar blackk / empty eyes and mouth. Have legs / feet / hips on one sprite that is brown, indicating pants, but torso / arms / head on second sprite is green. No hair.
+During mummy / frankenstein's monster, pumpkin eyes should randomly look around, but move about 1/2 the speed they do for shifty eyes
+
+Candy, 5 pieces of candy fall from the top of the screen each moving at a different rate taking between 3 and 6 seconds to reach the bottom of the screen. Each piece starts at a random X position within the ceteral 80% of the width screen just off the top of the screen. ends once each piece exits the bottom of the screen. each piece is removed once it moves off the visible bottom of the screen. To keep this plausable for a C128, onlyt 5 pieces of candy (assuming 8 sprite limit and eyes and witch are using the other 3 sprites)
+sprites: would like 3 types of candy lollypop similar to https://www.shutterstock.com/image-vector/red-lollipop-candy-pixel-art-2716356633?trackingId=da0df12c-3512-4171-a788-51f56f51c09d&listId=searchResults and sucker candies similar to https://www.vectorstock.com/royalty-free-vector/pixel-candy-sprite-vector-38154788 (round candy with triangluar twisted wrapper bits on sides) and https://www.shutterstock.com/image-vector/pixel-art-candy-8-bit-vector-2715159961?trackingId=bbcc3d93-0b75-4e1b-a4b4-266d15a50d9e&listId=searchResults (cylindrical candy with triangluar twisted wrapper bits on sides). These sprites should be one solid color with no stripes or outlines to fit C128 aesthetics. Each sprite would be one solid color of red, yellow, green, blue or purple. One candy of each color but a random type of the three available for each candy, type and position ransomized each time the routine is run.
+
