@@ -64,6 +64,10 @@
     };
   }
 
+  // Functions run once per jiffy after sprite motion, like extra code wedged into the
+  // C128's raster interrupt. Classic registers none; Extended uses them.
+  vic.jiffyHooks = [];
+
   /** Advance BASIC 7.0 interrupt-driven sprite motion by one jiffy (1/60 s). */
   vic.stepMotion = function () {
     for (let n = 1; n <= 8; n++) {
@@ -73,6 +77,27 @@
         s.y = (s.y + s.dy + 256) % 256;
       }
     }
+    for (const hook of vic.jiffyHooks) hook();
+  };
+
+  // A PAL raster line has 504 sprite X positions: 488-503 sit just left of 0,
+  // and 504-511 never match, so a sprite there is not displayed at all.
+  const SPR_X_LINE = 504;
+  const SPR_X_HIDDEN = -1000;
+
+  /** Display-window X of a sprite's left edge (handles the X wrap at the left border). */
+  vic.spriteScreenX = function (s) {
+    let px = Math.floor(s.x) & 511;
+    if (px >= SPR_X_LINE) return SPR_X_HIDDEN;
+    if (px >= 488) px -= SPR_X_LINE;
+    return px - SPR_X0;
+  };
+
+  /** True if any part of the sprite's 24x21 box is inside the display window. */
+  vic.spriteInWindow = function (s) {
+    const w = s.xexp ? 48 : 24, h = s.yexp ? 42 : 21;
+    const sx = vic.spriteScreenX(s), sy = (Math.floor(s.y) & 255) - SPR_Y0;
+    return sx > -w && sx < DISP_W && sy > -h && sy < DISP_H;
   };
 
   // Per-frame scratch buffers
@@ -80,9 +105,7 @@
   const sprBehind = new Uint8Array(DISP_W * DISP_H);
 
   function drawSprite(s) {
-    let px = Math.floor(s.x) & 511;
-    if (px >= 488) px -= 504;               // X wrap-around at the left edge (PAL)
-    const sx = px - SPR_X0;
+    const sx = vic.spriteScreenX(s);        // includes X wrap-around at the left edge (PAL)
     const sy = (Math.floor(s.y) & 255) - SPR_Y0;
     const w = s.xexp ? 2 : 1, h = s.yexp ? 2 : 1;
     const mc0 = vic.spriteMC[0], mc1 = vic.spriteMC[1];

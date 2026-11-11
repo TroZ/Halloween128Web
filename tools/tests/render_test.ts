@@ -13,10 +13,10 @@ import { SCENES } from "./scenes.ts";
 
 const W = 384, H_ = 272;
 
-for (const [name, setup] of Object.entries(SCENES)) {
+for (const [name, scene] of Object.entries(SCENES)) {
   Deno.test(`render matches golden: ${name}`, () => {
-    const H = load();
-    setup(H);
+    const H = load(scene.files);
+    scene.setup(H);
     const actual = renderFrame(H);
     const golden = readPng(new URL(`tools/tests/golden/${name}.png`, ROOT));
     assert(golden.width === W && golden.height === H_, "golden has the wrong size");

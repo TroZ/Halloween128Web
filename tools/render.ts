@@ -19,13 +19,13 @@ const dir = new URL(golden ? "tools/tests/golden/" : "tools/tests/output/", ROOT
 Deno.mkdirSync(dir, { recursive: true });
 
 for (const name of names) {
-  const setup = SCENES[name];
-  if (!setup) {
+  const scene = SCENES[name];
+  if (!scene) {
     console.error(`unknown scene "${name}". Available: ${Object.keys(SCENES).join(", ")}`);
     Deno.exit(1);
   }
-  const H = load();
-  setup(H);
+  const H = load(scene.files);
+  scene.setup(H);
   const file = new URL(`${name}.png`, dir);
   writePng(file, renderFrame(H), H.vic.FRAME_W, H.vic.FRAME_H, golden ? 1 : 2);
   console.log(`wrote ${decodeURIComponent(file.pathname).replace(/^\/([A-Za-z]:)/, "$1")}`);

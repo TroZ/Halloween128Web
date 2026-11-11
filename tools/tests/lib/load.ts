@@ -16,6 +16,7 @@ export const ENGINE = [
 ];
 
 export const CLASSIC = [...ENGINE, "classic/js/halloween.js"];
+export const EXTENDED = [...ENGINE, "extended/js/effects.js", "extended/js/halloween.js"];
 
 // deno-lint-ignore no-explicit-any
 export type H128 = any;
@@ -35,7 +36,11 @@ export function mulberry32(seed: number): () => number {
 export interface LoadOptions {
   /** Seed for Math.random (default 1). */
   seed?: number;
-  /** Replace the real-time scheduler with an instant virtual clock (default true). */
+  /**
+   * Replace the real-time scheduler with an instant virtual clock (default true).
+   * Sprite motion and jiffy hooks advance with virtual time, 60 steps per second,
+   * like the C128 interrupt (the browser does this from requestAnimationFrame).
+   */
   fastClock?: boolean;
 }
 
@@ -51,8 +56,12 @@ export function load(files: string[] = CLASSIC, opts: LoadOptions = {}): H128 {
   if (fastClock && H.sched) {
     H.sched.vt = 0;
     H.sched.tiBase = 0;
+    const JIFFY = 1000 / 60;
+    let jiffies = 0;
     H.sched.cost = (ms: number) => {
       H.sched.vt += ms;
+      const due = Math.floor(H.sched.vt / JIFFY);
+      while (jiffies < due) { H.vic.stepMotion(); jiffies++; }
       return Promise.resolve();
     };
   }

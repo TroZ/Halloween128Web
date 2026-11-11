@@ -48,6 +48,40 @@ Deno.test("MOVSPR angle#speed moves right at angle 90 and wraps at x=512", () =>
   assert(Math.abs(s.y - 70) < 1e-9, "no vertical drift at 90 degrees");
 });
 
+Deno.test("a sprite crossing all 512 X positions is visible in one unbroken stretch (PAL X wrap)", () => {
+  const H = load(ENGINE);
+  const s = H.vic.sprites[5];
+  s.y = 100;
+  // Start just after it has left the right edge and go once around.
+  const runs: number[][] = [];
+  let prevVisible = false, prevSx = -Infinity;
+  for (let i = 0; i < 512; i++) {
+    s.x = (344 + i) % 512;
+    const vis = H.vic.spriteInWindow(s);
+    if (vis) {
+      if (!prevVisible) runs.push([]);
+      const sx = H.vic.spriteScreenX(s);
+      assert(sx > prevSx, `screen x went backwards at sprite x=${s.x}`);
+      runs[runs.length - 1].push(s.x);
+      prevSx = sx;
+    }
+    prevVisible = vis;
+  }
+  assertEquals(runs.length, 1, `visible in ${runs.length} separate stretches: starts at ${runs.map((r) => r[0]).join(", ")}`);
+  assertEquals(runs[0][0], 1, "first enters at x=1");
+  assertEquals(runs[0][runs[0].length - 1], 343, "last visible at x=343");
+});
+
+Deno.test("sprite X positions 504-511 are never displayed", () => {
+  const H = load(ENGINE);
+  const s = H.vic.sprites[5];
+  s.y = 100;
+  for (let x = 504; x <= 511; x++) {
+    s.x = x;
+    assert(!H.vic.spriteInWindow(s), `visible at x=${x}`);
+  }
+});
+
 Deno.test("RSPPOS returns whole-number positions", () => {
   const H = load(ENGINE);
   H.spr.movspr(1, 125, 145);

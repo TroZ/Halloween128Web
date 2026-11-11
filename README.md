@@ -11,7 +11,7 @@ This isn't cycle perfect or doing any actual accurate emulation on the video or 
 | Folder | Version | Status |
 |---|---|---|
 | `classic/` | Faithful recreation of the original C128 program | Done (`classic-v1.0`) |
-| `extended/` | The original plus new routines, in the same C128 style | Planned |
+| `extended/` | The original plus new routines, in the same C128 style | In progress (ideas in `docs/ideas.txt`) |
 | `hd/` | High-resolution graphics, animated sprites, music playlists | Planned |
 
 Releases are tagged per version, e.g. `classic-v1.0`.
@@ -29,6 +29,7 @@ Keys: **M** mute, **F** fullscreen.
 ```
 index.html        landing page
 classic/          the Classic version (classic/js/halloween.js is the ported BASIC program)
+extended/         the Extended version (its own copy of the program + js/effects.js helpers)
 shared/c128/      virtual C128: VIC-II video, BASIC 7.0 graphics and sprite commands, SID sound, timing
 shared/ui/        page controls and styles shared by all versions
 docs/             detokenized BASIC listing, analysis, reference screenshots, ideas

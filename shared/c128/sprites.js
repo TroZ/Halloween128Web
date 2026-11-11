@@ -43,6 +43,38 @@
     }
   };
 
+  /** The 63 data bytes of sprite slot n (1-8) as loaded by HALOWEEN. */
+  spr.slot = function (n) {
+    return SPRITE_DATA.slice((n - 1) * 64, (n - 1) * 64 + 63);
+  };
+
+  /** Replace a sprite's shape (like POKEing a different data block). */
+  spr.setData = function (n, bytes) {
+    vic.sprites[n].data.set(bytes.slice(0, 63));
+  };
+
+  /**
+   * Left-right mirror of 63-byte sprite data. C128 programs had no hardware flip,
+   * so they kept a second, mirrored copy of the shape. Multicolour data is
+   * mirrored in bit pairs so colours are kept.
+   */
+  spr.mirrorData = function (bytes, multicolor = false) {
+    const out = new Array(63).fill(0);
+    for (let row = 0; row < 21; row++) {
+      const v = (bytes[row * 3] << 16) | (bytes[row * 3 + 1] << 8) | bytes[row * 3 + 2];
+      let m = 0;
+      if (multicolor) {
+        for (let p = 0; p < 12; p++) m |= ((v >> (p * 2)) & 3) << ((11 - p) * 2);
+      } else {
+        for (let b = 0; b < 24; b++) if (v & (1 << b)) m |= 1 << (23 - b);
+      }
+      out[row * 3] = (m >> 16) & 255;
+      out[row * 3 + 1] = (m >> 8) & 255;
+      out[row * 3 + 2] = m & 255;
+    }
+    return out;
+  };
+
   /** SPRITE n,on,color,priority,xexp,yexp,mode */
   spr.sprite = function (n, on, color, prio, xexp, yexp, mode) {
     const s = vic.sprites[n];
